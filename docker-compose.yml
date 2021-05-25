@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  collector:
+    build:
+      context: .
+      dockerfile: collector/Dockerfile
+    volumes:
+      - ./collector:/home/collector/app:rw
+      - ./protobufs:/home/collector/protobufs:rw
+    command: ["python", "server.py"]
+
+  web:
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    volumes:
+      - ./web:/home/web/app:rw
+    command: ["flask", "run", "-h", "0.0.0.0"]
+    ports:
+      - "8000:5000"
+    depends_on:
+      - collector
+    environment:
+      FLASK_DEBUG: 1
+      FLASK_APP: "app"
+      COLLHOST: collector

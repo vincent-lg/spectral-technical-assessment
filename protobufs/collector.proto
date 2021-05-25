@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+message DataRequest {}
+
+message ElectricalState {
+    google.protobuf.Timestamp step = 1;
+    float meter = 2;
+}
+
+message ElectricalData {
+    repeated ElectricalState states = 1;
+}
+
+service DataCollector {
+    rpc Collect (google.protobuf.Empty) returns (ElectricalData);
+}
