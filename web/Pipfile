@@ -1,0 +1,6 @@
+[packages]
+Flask = "==2.0"
+grpcio-tools = "==1.38"
+
+[requires]
+python_version = "3.8"

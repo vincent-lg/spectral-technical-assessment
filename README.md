@@ -1,3 +1,4 @@
+python -m grpc_tools.protoc -I ../protobufs --python_out=. --grpc_python_out=. ../protobufs/collector.proto
 # Spectral Energy: Technical Assessment
 
 This file, divided in two sections, attempts to describe both the implementation in technical
