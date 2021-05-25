@@ -19,6 +19,7 @@ Although it wasn't specifically asked, I imagine it is important to have
 this information for you and I tried to keep it clear and concise at the same time.
 
 1.  Documentation
+
     The first step in my work usually focuses on documentation.  I tend to
     rephrase instructions in more technical terms.  I try to identify
     areas where there is a doubt on what I should implement, and decide
@@ -34,7 +35,9 @@ this information for you and I tried to keep it clear and concise at the same ti
     much was open to interpretation.  I found myself wondering
     "shouldn't I add this feature?" and answering to myself that this
     wasn't asked specifically and was probably not the goal.
+
 2.  Bare implementation without microservices
+
     At this point, the main goal was to arrive at something that works,
     although it did't have to be perfect.  I chose to work in Python for
     simplicity's sake, because I have implemented microservices in this
@@ -50,19 +53,25 @@ this information for you and I tried to keep it clear and concise at the same ti
     step).  The reason why I didn't put them in microservices at this
     point is mostly that it would be easier to test them the way they
     were and make adjustements.
+
 3.  Full implementation with microservices
+
     Having working code, I separated it in microservices as per instructions.
     I used gRPC to maintain communication between these services.
     One client would be responsible for reading the data from disk and
     sending it.  The other would ask for the data and convert it
     to JSON.  The web server was added in this second client to render
     the JSON response.
+
 4.  Easier deployment with Docker
+
     At this point, having a few services, I wanted to make sure they could
     be easier to deploy.  I used Docker to create several containers.
     Both would use Python and I took advantage of pipenv to create an
     installation of third-party modules easier to replicate.
+
 4.  Test and adjustment
+
     At this point I tooik some time to create automated testing.
     Sometimes, I create tests just after writing down documentation,
     in a more Test-Driven-Development approach.  I have worked with a
@@ -73,7 +82,9 @@ this information for you and I tried to keep it clear and concise at the same ti
     to believe testing is key, no matter when and as long as it's
     "effective" testing.  It's not unheard of, at this point, to have
     to slightly alter the code to fix bugs, but that's why testing is important.
+
 5.  Wrapping up
+
     Finally came the final step: checking and consistency measurement.
     I again read the full instructions.  I again read my specifications.
     I made sure my tests were in accordance to what I had written (though
