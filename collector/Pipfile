@@ -1,0 +1,5 @@
+[packages]
+grpcio-tools = "==1.38"
+
+[requires]
+python_version = "3.8"
