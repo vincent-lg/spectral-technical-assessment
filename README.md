@@ -1,4 +1,3 @@
-python -m grpc_tools.protoc -I ../protobufs --python_out=. --grpc_python_out=. ../protobufs/collector.proto
 # Spectral Energy: Technical Assessment
 
 This file, divided in two sections, attempts to describe both the implementation in technical
@@ -11,6 +10,36 @@ the list of instructions).
 This section describes the technical implementation in terms of end products
 (what now exists in this folder).  The section on [#process](Process)
 focuses on the steps I took to approach the problem.
+
+1.  Division and logic
+
+    In the completed assessment are two docker images: one hosts the
+    data collecting process (called `collector`), which is a gRPC server.
+    The other holds the web logic, and has been called simply `web`.
+    This latter holds two tasks: the API, responsible for querying
+    the gRPC server, and the main web application, using a small template engine
+    (jinja2).  Both tasks use Flask in the same server.
+
+2.  Deployment
+
+    To deploy both services at once, the easiest is through docker-compose:
+
+        docker-compose up
+
+    Then, one can connect to (localhost:8000) to retrieve the served
+    HTML page.  This page is definitely not pretty (I assumed this
+    wasn't the point) but it should retrieve the desire information.
+
+    To stop the services and remove the generated volume:
+
+        docker-compose down -v
+
+3.  Testing
+
+    Unittests have been provided in both containers.  Each component
+    (collector gRPC server, API and main page) have been tested.
+    However, the two latter are closer to integration tests where they
+    mock as little as possible and generate potentially more side-effect.
 
 ## Process
 
@@ -39,7 +68,7 @@ this information for you and I tried to keep it clear and concise at the same ti
 2.  Bare implementation without microservices
 
     At this point, the main goal was to arrive at something that works,
-    although it did't have to be perfect.  I chose to work in Python for
+    although it didn't have to be perfect.  I chose to work in Python for
     simplicity's sake, because I have implemented microservices in this
     language and know the libraries I will need.  It might have been
     a better strategy to develop directly in C#, to show I could do it in
@@ -47,20 +76,20 @@ this information for you and I tried to keep it clear and concise at the same ti
     what I knew, being confident that I could adapt to C# (or another
     high-level language) without much time.  Of course, this decision
     doesn't imply I cannot work with anything but Python.
-    This step involveed creating a "fake" service (though not a microservice)
-    and an HTTP server.  I used only standand modules for the former, though I used
+    This step involved creating a "fake" service (though not a microservice)
+    and an HTTP server.  I used only standard modules for the former, though I used
     Flask for the latter (and intend to keep using Flask in the next
     step).  The reason why I didn't put them in microservices at this
     point is mostly that it would be easier to test them the way they
-    were and make adjustements.
+    were and make adjustments.
 
 3.  Full implementation with microservices
 
     Having working code, I separated it in microservices as per instructions.
     I used gRPC to maintain communication between these services.
-    One client would be responsible for reading the data from disk and
+    One service would be responsible for reading the data from disk and
     sending it.  The other would ask for the data and convert it
-    to JSON.  The web server was added in this second client to render
+    to JSON.  The web server was added in this second service to render
     the JSON response.
 
 4.  Easier deployment with Docker
@@ -72,7 +101,7 @@ this information for you and I tried to keep it clear and concise at the same ti
 
 4.  Test and adjustment
 
-    At this point I tooik some time to create automated testing.
+    At this point I took some time to create automated testing.
     Sometimes, I create tests just after writing down documentation,
     in a more Test-Driven-Development approach.  I have worked with a
     Behavior-Driven-Development approach where test were written by
